@@ -178,6 +178,12 @@ class MAML:
         # Make sure to populate accuracies and update parameters.
         # Use F.cross_entropy to compute classification losses.
         # Use util.score to compute accuracies.
+        #print('Boom')
+        #print(parameters)        
+
+        # Compure inner loop
+
+        # accuracies.append()
 
         # ********************************************************
         # ******************* YOUR CODE HERE *********************
@@ -218,6 +224,14 @@ class MAML:
             # Use util.score to compute accuracies.
             # Make sure to populate outer_loss_batch, accuracies_support_batch,
             # and accuracy_query_batch.
+
+
+            #print('BOOM')
+            #print(len(task)) # 4
+            #print(len(images_support)) # 5
+            #print(len(images_query)) # 75
+            #print(len(images_support[0][0][0])) # 1 x 28 x 28
+            #print(images_support.cpu().numpy().shape) 5 x1 x28 x28
 
             # ********************************************************
             # ******************* YOUR CODE HERE *********************

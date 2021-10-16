@@ -1,12 +1,12 @@
 """Dataloading for Omniglot."""
 import os
 import glob
-
+import imageio
 import google_drive_downloader as gdd
 import numpy as np
 import torch
 from torch.utils.data import dataset, sampler, dataloader
-from torchvision import io
+#from torchvision import io
 
 
 NUM_TRAIN_CLASSES = 1100
@@ -25,8 +25,10 @@ def load_image(file_path):
         a Tensor containing image data
             shape (1, 28, 28)
     """
-    x = io.read_image(file_path)
-    x = x.type(torch.float)
+    #x = io.read_image(file_path)
+    #x = x.type(torch.float)
+    x = imageio.imread(file_path)
+    x = torch.tensor(x, dtype=torch.float32).reshape([1, 28, 28])
     x = x / 255.0
     return 1 - x
 
