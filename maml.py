@@ -225,6 +225,9 @@ class MAML:
             # Make sure to populate outer_loss_batch, accuracies_support_batch,
             # and accuracy_query_batch.
 
+            test = _inner_loop(self, images_support, labels_support, True)
+
+
 
             #print('BOOM')
             #print(len(task)) # 4

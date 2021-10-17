@@ -8,7 +8,7 @@ import torch
 from torch import nn
 import torch.nn.functional as F  # pylint: disable=unused-import
 from torch.utils import tensorboard
-
+from sklearn.utils import shuffle
 import omniglot
 import util  # pylint: disable=unused-import
 
@@ -124,16 +124,17 @@ class ProtoNet:
             # TODO: finish implementing this method.
             # For a given task, compute the prototypes and the protonet loss.
             
+            # shuffle data
+            #images_support, labels_support = shuffle(images_support, labels_support)
+            images_query, labels_query = shuffle(images_query, labels_query)
+
+            # check shape of support
+            #print(images_support.shape) # 25 x 1 x 28 x 28
+            #print(labels_support.shape) # 25
+
             # Compute prototype from support examples
-
-            # Get number of class
-            #labels_sup_num = len(torch.unique(labels_support))
-            #labels_que_num = len(torch.unique(labels_query))
-            #print(labels_sup_num, labels_que_num) # 5, 5
-
             # Create new prototype
-            #print(images_support.shape) #= N * K aka class * support
-            # Group support vector with same label to the same group
+            # Group support samples with same label to the same group
 
             proto_dict = {}
             proto_count = {}
@@ -141,31 +142,43 @@ class ProtoNet:
                 each_sup = images_support[i]
                 sup_label = labels_support[i]
                 proto = self._network(torch.unsqueeze(each_sup, 0))
-                # print(proto.shape) 1 * 64
+
+                # Sum samples with same class to create prototype 
                 if sup_label.item() not in proto_dict.keys():
-                    #print(sup_label.item())
                     proto_dict[sup_label.item()] = proto
                     proto_count[sup_label.item()] = 1
                 else:
                     proto_dict[sup_label.item()] += proto
                     proto_count[sup_label.item()] += 1
             
+            # Check label:
+            #print(len(proto_dict)) # 5
+
             # Normalize centroids by number support vector
             for i in range(len(proto_dict.keys())):
                 #print(proto_count[i])
                 proto_dict[i] = proto_dict[i]/proto_count[i]
+                #print(proto_dict[i].shape) # 1 x 64
+
+            #print(proto_dict.keys())    
 
             # Get prediction for support set
-            pred_support = []
+            support_pred_stack = []
+            support_pred_stack_t = torch.empty((0)).cuda()
             prob_support = {}
             support_assign = {}
             all_pred_sup = []
+
+            #print(len(images_support)) # 25
             for i in range(len(images_support)):
+                #print('Start of image support loop')
                 # Embedding value
                 proto = self._network(torch.unsqueeze(images_support[i], 0))
                 min_dist = 0
                 prob_sum_support = 0
+                #print(i) # 5 error
                 # Calculate distance with each prototype
+                #print(len(proto_dict)) # 5
                 for each_proto in proto_dict.keys():
                     dist = torch.cdist(proto, proto_dict[each_proto])**2
                     prob_sum_support += torch.exp(-dist)
@@ -181,46 +194,68 @@ class ProtoNet:
                         min_dist = dist
                         pred_label = each_proto
                 
-                support_assign[i] = min_dist
-                all_pred_sup.append(each_proto)
+                #support_assign[i] = min_dist # 25
+                #print(len(support_assign)) # 5 5 5 5 6
+                #print(i)
+                #all_pred_sup.append(pred_label)
 
                 #print("prob_sum_support")
                 #print(prob_sum_support) # should be 1 passed
                 # assign probability
+
+                #print(support_assign.keys()) # 0 1 2 3 4
+
                 pred_stack = []
+                pred_stack_t = torch.empty((0)).cuda()
+                
                 for prob in support_assign.keys():
                     prob_i = support_assign[prob]/prob_sum_support
                     #print(prob_i)
-                    pred_stack.append(prob_i)
+                    #pred_stack.append(prob_i)
+                    #print(pred_stack_t.shape)
+                    pred_stack_t = torch.cat((pred_stack_t, prob_i), dim = 1)
+                    #print('Dones')d
                     # check if sum = 1
                     #test += prob_i
+                #print(pred_stack_t)
+                #print(pred_stack)
                 #print(test) # passed
-                pred_support.append(pred_stack)
+                #support_pred_stack.append(pred_stack)
+                #print(support_pred_stack_t.shape)
+                #print(pred_stack_t.shape)
+                support_pred_stack_t = torch.cat((support_pred_stack_t, pred_stack_t), dim = 0) # 25 * 5
+                #print(support_pred_stack)
 
-                
+            #support_pred_stack_t = torch.argmax(support_pred_stack_t, dim=-1)
+            #print(support_pred_stack_t.shape)
+            #print(support_pred_stack_t)
+            #print(labels_support)
             #print('Boom')
             #print(prob_sum_support)
 
-            pred_support = torch.Tensor(pred_support).cuda()
+            #support_pred_stack = torch.Tensor(support_pred_stack).cuda()
+            #print(support_pred_stack)
             #print(pred_support.shape)
 
             ################################################
             # Get accuracy of support set
-            acc_support = util.score(pred_support, labels_support)
+            acc_support = util.score(support_pred_stack_t, labels_support)
             accuracy_support_batch.append(acc_support)
-            print(acc_support)
+            #print(acc_support)
             ################################################
 
             # For each images in query set, put it through model and compare with each proto
             query_assign = {}
             prob_assign = {}
-            batch_pred_stack = []
+            query_pred_stack = []
+            query_pred_stack_t = torch.empty((0)).cuda()
             all_pred = []
             for i in range(len(images_query)):
                 each_que =  images_query[i]
                 que_label = labels_query[i]
                 # print(que_label) # 0 to 4
                 embedding_dis = self._network(torch.unsqueeze(each_que, 0))
+                #print(embedding_dis)
                 #print(predict)
                 # compare each image to cluster
                 proto_prob_sum = 0
@@ -228,8 +263,11 @@ class ProtoNet:
                 for each_c in proto_dict.keys():
                     c_centroid = proto_dict[each_c]
                     euclidena_dist = torch.cdist(c_centroid, embedding_dis)**2
+                    #print(euclidena_dist)
                     proto_prob_sum += torch.exp(-euclidena_dist)
+                    #print(proto_prob_sum)
                     prob_assign[each_c] = torch.exp(-euclidena_dist)
+                    #print(prob_assign[each_c])
                     # take centroid with least distance
                     if min_dist == 0:
                         min_dist = euclidena_dist
@@ -242,20 +280,32 @@ class ProtoNet:
                         # prediction
                         #all_pred.append(each_c)
                 query_assign[i] = min_value
+                #print(min_value)
                 all_pred.append(min_value)
 
                 # assign unormalized log-probabilities
                 #test = 0
                 pred_stack = []
+                pred_stack_t = torch.empty((0)).cuda()
+                #print(pred_stack_t.shape)
+                #print(pred_stack_t.is_cuda)
                 for prob in prob_assign.keys():
                     prob_i = prob_assign[prob]/proto_prob_sum
+                    #print(prob_i)
+                    #prob_i = torch.tensor(prob_i, requires_grad=True, device='cuda')
                     # if prob_i > 0.9:
                     #     print(prob_i)
                     pred_stack.append(prob_i)
+                    pred_stack_t = torch.cat((pred_stack_t, prob_i), dim = 1)
                     # check if sum = 1
                     #test += prob_i
+                #print(pred_stack_t)
+                #print(pred_stack_t.shape)
                 #print(test) # passed
-                batch_pred_stack.append(pred_stack)
+                query_pred_stack.append(pred_stack)
+                query_pred_stack_t = torch.cat((query_pred_stack_t, pred_stack_t), dim = 0)
+                #print(query_pred_stack_t)
+            #print(query_pred_stack_t.shape)
 
             #print(type(batch_pred_stack))
             #print(batch_pred_stack.dtype)
@@ -263,17 +313,27 @@ class ProtoNet:
             #print(len(batch_pred_stack)) # 75 * 5 aka query x class
 
             # Use util.score to compute accuracies.
-            batch_pred_stack = torch.Tensor(batch_pred_stack).cuda()
-            #print(batch_pred_stack.shape)
-
+            query_pred_stack = torch.tensor(query_pred_stack, requires_grad=True, device='cuda')
+            #query_pred_stack = torch.FloatTensor(query_pred_stack).cuda()
+            #query_pred_stack = query_pred_stack.cuda()
+            #print(query_pred_stack)
+            #labels_query = labels_query.type(torch.FloatTensor).cuda()
+            #print(batch_pred_stack.shape) # 75 * 5
+            #print(labels_query.shape) # 5
+            #print(batch_pred_stack)
+            #print(labels_query)
+            #print(torch.argmax(batch_pred_stack, dim = 1).shape) # will lose 1 dimension here
             # Use F.cross_entropy to compute classification losses.
 
-            #loss = F.cross_entropy(batch_pred_stack.type(torch.LongTensor), all_label.type(torch.LongTensor))
-            #loss.backward()
+            loss = F.cross_entropy(query_pred_stack_t, labels_query)
+            #print(loss)
+            #print(loss.dtype)    # torch float
+            #print(loss.is_cuda)  # is cuda
+            loss_batch.append(loss)
             #print(loss)
 
-            acc_query = util.score(batch_pred_stack, labels_query) # logit, label
-            print(acc_query)
+            acc_query = util.score(query_pred_stack_t, labels_query) # logit, label
+            #print(acc_query)
             # Make sure to populate loss_batch, accuracy_support_batch, and
             
             # accuracy_query_batch.
