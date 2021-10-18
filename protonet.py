@@ -313,7 +313,7 @@ class ProtoNet:
             #print(len(batch_pred_stack)) # 75 * 5 aka query x class
 
             # Use util.score to compute accuracies.
-            query_pred_stack = torch.tensor(query_pred_stack, requires_grad=True, device='cuda')
+            #query_pred_stack = torch.tensor(query_pred_stack, requires_grad=True, device='cuda')
             #query_pred_stack = torch.FloatTensor(query_pred_stack).cuda()
             #query_pred_stack = query_pred_stack.cuda()
             #print(query_pred_stack)
