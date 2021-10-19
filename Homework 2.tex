@@ -1,0 +1,145 @@
+\documentclass[]{article}
+\usepackage{graphicx}
+\usepackage{float}
+\usepackage{subcaption}
+%\usepackage{svg}
+%\graphicspath{{/home/andrew/Desktop/CS330/hw0/multitask-recsys/images/}}
+%\graphicspath{{/home/andrew/Desktop/CS330/hw1/images/}}
+\graphicspath{{./images/}{/home/andrew/Pictures/}}
+%opening
+\title{\textbf{CS 330 Autumn 2021/2022 Homework 2}
+	{Prototypical Networks and Model-Agnostic Meta-Learning
+		Due Wednesday October 18, 11:59 PM PST}}
+
+\author{
+			\\SUNetID: tminh 
+			\\Name: Minh Tran 
+			\\Collaborators: N/A 
+		}
+
+
+\begin{document}
+	
+	\maketitle
+	
+	\begin{abstract}
+		
+		The document contains solutions of implementation of the Prototypical Networks and the Model-Agnostic Meta-Learning. It also includes the results of different experiment settings on the Omniglot dataset as well as the explanation for performance.
+		
+	\end{abstract}
+	
+	\section{Prototypical Networks}
+	\subsection{Implementation}
+	The implementation for protonet step for each task in a batch task is in the function $\_$step in class ProtoNet, in the file "protonet.py". For each task, the data is divided to support set to create prototypes using a embedding network and query set to classify the data by assign it to the prototype with the shortest distance from itself. The function return list of accuracy of support and query set, and the loss which is optimized to find the best parameters of the embedding network.
+	
+	\subsection{Performance on 5-way 1-shot Omniglot ProtoNet}
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.\linewidth]{Screenshot from 2021-10-18 15-15-07.png}
+			\caption{Query accuracy over the course of training 5-way 1-shot (red chart)}
+		\end{figure}
+	\end{center}
+	From the query accuracy 5-way 1-shot over the training course, we can see that the model reach to a stable state after around 1800 steps with the accuracy at around 98%. 
+	
+	\subsection{Metric explanation}
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.\linewidth]{Screenshot from 2021-10-18 15-31-33.png}
+			\caption{Support accuracy over the course of training 5-way 1-shot (red chart)}
+		\end{figure}
+	\end{center}
+	
+	\textbf{a.} 
+	For the support set, the accuracy in both train and validation are always almost 100$\%$, this makes sense since the support set is used to calculate the prototype so validating on those should return a almost perfect result. It suggests that the protonet did some clustering with the support examples of the same class.\\
+	
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.\linewidth]{Screenshot from 2021-10-18 15-43-34.png}
+			\caption{Query accuracy over the course of training 5-way 1-shot (red chart)}
+		\end{figure}
+	\end{center}
+	
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.\linewidth]{Screenshot from 2021-10-18 15-45-11.png}
+			\caption{Query accuracy over the course of testing 5-way 1-shot (red chart)}
+		\end{figure}
+	\end{center}
+	
+	\textbf{b.} 
+	For the query set, the training is more fluctuate but eventually reaches and stays at around 98$\%$. The validation is smoother but ended up reaches slightly lower than the train accuracy but still at 97$\%$, at the step 2000, the performance is good and the model does not have any sight of over fitting yet.
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.\linewidth]{Screenshot from 2021-10-18 15-45-11.png}
+			\caption{Query accuracy over the course of evaluating for 1-shot and 5-shot}
+		\end{figure}
+	\end{center}
+	\subsection{Benchmark setting}
+	Looking at Figure 5, we can see the query accuracy validation of 5-way 1-shot task (red chart) and 5-way 5-shot task (blue chart). I choose the checkpoint at the step 1900 since that is when both model became stable and the accuracy is high and there is no sight of over fitting. The 5-shot model ()blue) has the better performance since the beginning, however, over the training, the accuracy of both models tend to converge at 97-98 percent after step 1900. This makes sense since with 5-shot, with more data the model will have better initial embedded prototype and thus have a better generalization, more shot also increased the convergence speed during training. \\
+	
+	\section{Model-Agnostic Meta-Learning}
+	\subsection{Implementation}
+	The implementation for MAML training step functions is in "$\_$outer$\_$step" and "$\_$inner$\_$loop" inside class MAML, details comments are in "maml.py". In the outer step, the function parse task in each task batch to support and query set, the support set was passed to the inner loop adaptation and the support set was later for testing with new parameters returned from the adaptation loop. Inside the inner loop, for each inner step, the initial loss is used to calculate the gradient of each parameter which is updated each step with the according learning rate.
+	
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.0\linewidth]{Screenshot from 2021-10-18 23-43-30.png}
+			\caption{Train/Test Accuracy of Support/Query Set Pre/Post Adaptation}
+		\end{figure}	
+	\end{center}
+	
+	\subsection{Performance on 5-way 1-shot Omniglot MAML}
+	From the query accuracy 5-way 1-shot over the training course, we can see that the model reach to a stable state after around 2000 steps with the accuracy around 95$\%$ for both training and evaluating, without any sign of over fitting, after 2000 steps, the performance can increase but slowly and mostly is a flat line. Due to GPU memory problem, all the experiments have batch size of 4 while the other settings stay the same as given.
+	
+	
+	\subsection{Metric explanation}
+	Please use Figure 6 as a reference for answers below. \\
+	\textbf{a.}
+	Without the adaptation, the model performed really bad in both training and evaluating for the support set, it reached 20$\%$ which is near perfect random for a 5-way classification. It makes sense since for the test sampling, the process is random while the model can not learn anything to get optimal parameter for new tasks. \\
+	\textbf{b.}
+	For the support set training, unlike the pre-adapt model, we can see that with the adaptation, the model performed really well with the accuracy around 99$\%$ just after 2000 steps. We also observed the same pattern with the evaluation of the support set. This result indicate clearly that the model with adapted parameters is robust to new task in both training and testing process. \\
+	\textbf{c.}
+	For adapted training process, both the support set and query set returned stable performance. The support set reach 99$\%$ accuracy after 2000 steps while at the same step the query set reached 94$\%$ and kept increasing stably for later steps. The same pattern appears in the validation, as well as the performance of the support set always higher than the query set which makes sense since we used the support set to calibrate the parameters. \\
+	
+	\subsection{Benchmark learning rate}
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.0\linewidth]{Screenshot from 2021-10-19 01-02-18.png}
+			\caption{Performance with different learning rates 0.4 (red) and 0.04 (blue)}
+		\end{figure}
+	\end{center}
+	From Figure 7, we can observe clearly that for this model settings, smaller learning makes the model's performance on query set lower than the ones with higher learning rate. After 15000 steps, the performance of support set on two settings almost matched while there is still a gap between those for the query set. This pattern makes sense since if every gradient step is smaller so the learning phase takes more time thus the query set will have a lower accuracy but this gap will be narrow down toward the training process. Eventually, the setting with smaller learning rate can match or even slightly outperform the larger learning rate since it could optimize the loss a little bit better, one of the best solution for this case is adaptive learning rate or scheduled learning rate.
+	
+	\subsection{Learn the learning rate}
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.0\linewidth]{Screenshot from 2021-10-19 01-02-18.png}
+			\caption{Performance with normal rate (orange) and learned learning rate (red)}
+		\end{figure}
+	\end{center}
+	From the Figure 8, we can see that for query accuracy, the learned learning rate clearly helped the model to learn more efficiently from the data, but toward the end, it slowed down and eventually the original learning rate setting bested the learned one, I suspect that could be the learned rate stuck at regional optimal which could happen when the learning rate is too small and the loss surface is not smooth. 
+	
+	\section{More Support Data at Test Time}
+	\subsection{ProtoNet vs MAML}
+	\begin{center} 
+		\begin{figure}[H]
+			\centering
+			\includegraphics[width=1.0\linewidth]{Screenshot from 2021-10-19 15-45-17.png}
+			\caption{ProtoNet/MAML Support versus Accuracy}
+		\end{figure}
+	\end{center}
+	From Figure 9, we can see that both model performed well using additional data. I think it makes sense since for MAML is it trained to adapt to new ask while for ProtoNet, the clustering of prototype did well in some degree so that it still can distinguish new tasks, however I suspect it could be a problem for ProtoNet when the number of class is very large.
+	
+	
+	
+	
+	
+\end{document}

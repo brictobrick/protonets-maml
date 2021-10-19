@@ -106,6 +106,7 @@ class MAML:
             k: torch.tensor(inner_lr, requires_grad=learn_inner_lrs)
             for k in self._meta_parameters.keys()
         }
+        #print(self._inner_lrs)
         self._outer_lr = outer_lr
 
         self._optimizer = torch.optim.Adam(
@@ -179,53 +180,9 @@ class MAML:
         # Use F.cross_entropy to compute classification losses.
         # Use util.score to compute accuracies.
         
-        # Divide to task lish with same table
-        #all_task = torch.empty((0)) 
-        # task_dict = {}
-        # task_label_dict = {}
-        # for i in range(len(labels)):
-        #     label_sup = labels[i]
-        #     #print(label_sup.item())
-        #     if label_sup.item() not in task_dict.keys():
-        #         task_dict[label_sup.item()] = torch.unsqueeze( images[i], dim = 0)
-        #         task_label_dict[label_sup.item()] = torch.unsqueeze(labels[i], dim = 0)
-        #     else:
-        #         task_dict[label_sup.item()] = torch.cat((task_dict[label_sup.item()], torch.unsqueeze(images[i], dim = 0)), dim = 1)
-        #         task_label_dict[label_sup.item()] = torch.cat((task_label_dict[label_sup.item()], torch.unsqueeze(labels[i], dim = 0)), dim = 1)
 
-        # Inner loop
-        # torch.autograd.set_detect_anomaly(True)
-        # for task in task_dict.keys():
-        #     # for inner loop step
-        #     for z in range(self._num_inner_steps):
-        #         pred = self._forward(task_dict[task], parameters)
-        #         task_label = task_label_dict[task]
-        #         loss = F.cross_entropy(pred, task_label)
-        #         acc = util.score(pred, task_label)
-        #         accuracies.append(acc)
-        #         #print(acc)
 
-        #         for param in parameters.keys():
-        #             param_value = parameters[param]
-        #             try:
-        #                 #print(param)
-        #                 param_grad = autograd.grad(loss, inputs=(param_value), retain_graph = True, create_graph = False)
-        #                 #print(param_value.shape) # these two always match
-        #                 #print(param_grad[0].shape) # these two always match
-        #             except:
-        #                 print('Boooo')
-        #                 print(param)   # conv0
-        #                 #print(loss)
-        #                 print(param_value.shape) # 64 x 1 x 3 x 3
-        #                 print(param_grad[0].shape) # 5              # why mismatch?
-        #                 break
-        #             param_lr = self._inner_lrs[param]
-
-        #             #with torch.no_grad():
-        #             parameters[param] = parameters[param] - (param_lr * param_grad[0])
-        #             param_grad[0].zero_()
-
-        # Inner loop 22222222222
+        # Inner loop 
         torch.autograd.set_detect_anomaly(True)
         # for inner loop step
         for z in range(self._num_inner_steps + 1):
@@ -233,34 +190,17 @@ class MAML:
             loss = F.cross_entropy(pred, labels)
             acc = util.score(pred, labels)
             accuracies.append(acc)
-            #print(z)
-            #print(acc)
 
             for param in parameters.keys():
                 param_value = parameters[param]
-                try:
-                    #print(param)
-                    param_grad = autograd.grad(loss, inputs=(param_value), retain_graph = True, create_graph = False)
-                    #print(param_value.shape) # these two always match
-                    #print(param_grad[0].shape) # these two always match
-                except:
-                    print('Boooo')
-                    print(param)   # conv0
-                    #print(loss)
-                    print(param_value.shape) # 64 x 1 x 3 x 3
-                    print(param_grad[0].shape) # 5              # why mismatch?
-                    break
+                param_grad = autograd.grad(loss, inputs=(param_value), retain_graph = True, create_graph = False)
                 param_lr = self._inner_lrs[param]
 
                 #with torch.no_grad():
                 parameters[param] = parameters[param] - (param_lr * param_grad[0])
+                #if not args.learn_inner_lrs:
                 param_grad[0].zero_()
 
-
-
-        # Compute inner loop
-
-        # accuracies.append()
 
         # ********************************************************
         # ******************* YOUR CODE HERE *********************
@@ -310,8 +250,7 @@ class MAML:
             outer_loss_batch.append(loss)
             accuracies_support_batch.append(acc_support)
             accuracy_query_batch.append(acc_query)
-            #print(loss)
-            #print(acc_query)
+
 
             # ********************************************************
             # ******************* YOUR CODE HERE *********************
@@ -345,6 +284,7 @@ class MAML:
             outer_loss, accuracies_support, accuracy_query = (
                 self._outer_step(task_batch, train=True)
             )
+
             outer_loss.backward()
             self._optimizer.step()
 
@@ -566,7 +506,7 @@ if __name__ == '__main__':
                         help='number of classes in a task')
     parser.add_argument('--num_support', type=int, default=1,
                         help='number of support examples per class in a task')
-    parser.add_argument('--num_query', type=int, default=5, # 15
+    parser.add_argument('--num_query', type=int, default=15, # 15
                         help='number of query examples per class in a task')
     parser.add_argument('--num_inner_steps', type=int, default=1,
                         help='number of inner-loop updates')
@@ -576,7 +516,7 @@ if __name__ == '__main__':
                         help='whether to optimize inner-loop learning rates')
     parser.add_argument('--outer_lr', type=float, default=0.001,
                         help='outer-loop learning rate')
-    parser.add_argument('--batch_size', type=int, default=16, # 16
+    parser.add_argument('--batch_size', type=int, default=4, # 16
                         help='number of tasks per outer-loop update')
     parser.add_argument('--num_train_iterations', type=int, default=15000,
                         help='number of outer-loop updates to train for')

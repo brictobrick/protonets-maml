@@ -1,0 +1,255 @@
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019/Debian) (preloaded format=pdflatex 2021.10.5)  19 OCT 2021 15:58
+entering extended mode
+ restricted \write18 enabled.
+ %&-line parsing enabled.
+**"Homework 2.tex"
+(./Homework 2.tex
+LaTeX2e <2020-02-02> patch level 2
+L3 programming layer <2020-02-14>
+(/usr/share/texlive/texmf-dist/tex/latex/base/article.cls
+Document Class: article 2019/12/20 v1.4l Standard LaTeX document class
+(/usr/share/texlive/texmf-dist/tex/latex/base/size10.clo
+File: size10.clo 2019/12/20 v1.4l Standard LaTeX file (size option)
+)
+\c@part=\count167
+\c@section=\count168
+\c@subsection=\count169
+\c@subsubsection=\count170
+\c@paragraph=\count171
+\c@subparagraph=\count172
+\c@figure=\count173
+\c@table=\count174
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen134
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphicx.sty
+Package: graphicx 2019/11/30 v1.2a Enhanced LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/keyval.sty
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks14
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/graphics.sty
+Package: graphics 2019/11/30 v1.4a Standard LaTeX Graphics (DPC,SPQR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-cfg/graphics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: pdftex.def on input line 105.
+
+(/usr/share/texlive/texmf-dist/tex/latex/graphics-def/pdftex.def
+File: pdftex.def 2018/01/08 v1.0l Graphics/color driver for pdftex
+))
+\Gin@req@height=\dimen135
+\Gin@req@width=\dimen136
+)
+(/usr/share/texlive/texmf-dist/tex/latex/float/float.sty
+Package: float 2001/11/08 v1.3d Float enhancements (AL)
+\c@float@type=\count175
+\float@exts=\toks15
+\float@box=\box45
+\@float@everytoks=\toks16
+\@floatcapt=\box46
+)
+(/usr/share/texlive/texmf-dist/tex/latex/caption/subcaption.sty
+Package: subcaption 2020/01/22 v1.3d Sub-captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption.sty
+Package: caption 2020/01/03 v3.4h Customizing captions (AR)
+
+(/usr/share/texlive/texmf-dist/tex/latex/caption/caption3.sty
+Package: caption3 2020/01/03 v1.8h caption3 kernel (AR)
+Package caption3 Info: TeX engine: e-TeX on input line 61.
+\captionmargin=\dimen137
+\captionmargin@=\dimen138
+\captionwidth=\dimen139
+\caption@tempdima=\dimen140
+\caption@indent=\dimen141
+\caption@parindent=\dimen142
+\caption@hangindent=\dimen143
+Package caption Info: Standard document class detected.
+)
+\c@caption@flags=\count176
+\c@continuedfloat=\count177
+Package caption Info: float package is loaded.
+)
+\c@subfigure=\count178
+\c@subtable=\count179
+)
+(/usr/share/texlive/texmf-dist/tex/latex/l3backend/l3backend-pdfmode.def
+File: l3backend-pdfmode.def 2020-02-03 L3 backend support: PDF mode
+\l__kernel_color_stack_int=\count180
+\l__pdf_internal_box=\box47
+)
+(./Homework 2.aux)
+\openout1 = `"Homework 2.aux"'.
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 21.
+LaTeX Font Info:    ... okay on input line 21.
+
+(/usr/share/texlive/texmf-dist/tex/context/base/mkii/supp-pdf.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count181
+\scratchdimen=\dimen144
+\scratchbox=\box48
+\nofMPsegments=\count182
+\nofMParguments=\count183
+\everyMPshowfont=\toks17
+\MPscratchCnt=\count184
+\MPscratchDim=\dimen145
+\MPnumerator=\count185
+\makeMPintoPDFobject=\count186
+\everyMPtoPDFconversion=\toks18
+) (/usr/share/texlive/texmf-dist/tex/latex/epstopdf-pkg/epstopdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(/usr/share/texlive/texmf-dist/tex/latex/latexconfig/epstopdf-sys.cfg
+File: epstopdf-sys.cfg 2010/07/13 v1.3 Configuration of (r)epstopdf for TeX Liv
+e
+))
+Package caption Info: Begin \AtBeginDocument code.
+Package caption Info: End \AtBeginDocument code.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <12> on input line 23.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <8> on input line 23.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <6> on input line 23.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <7> on input line 33.
+LaTeX Font Info:    External font `cmex10' loaded for size
+(Font)              <5> on input line 33.
+</home/andrew/Pictures/Screenshot from 2021-10-18 15-15-07.png, id=1, 1340.0062
+6pt x 515.9275pt>
+File: /home/andrew/Pictures/Screenshot from 2021-10-18 15-15-07.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-18 15-15-07.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-18 15-15
+-07.png  used on input line 39.
+(pdftex.def)             Requested size: 345.0pt x 132.83116pt.
+
+[1
+
+{/var/lib/texmf/fonts/map/pdftex/updmap/pdftex.map}]
+</home/andrew/Pictures/Screenshot from 2021-10-18 15-31-33.png, id=14, 1361.085
+pt x 446.66875pt>
+File: /home/andrew/Pictures/Screenshot from 2021-10-18 15-31-33.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-18 15-31-33.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-18 15-31
+-33.png  used on input line 49.
+(pdftex.def)             Requested size: 345.0pt x 113.21405pt.
+
+Underfull \hbox (badness 10000) in paragraph at lines 54--56
+
+ []
+
+</home/andrew/Pictures/Screenshot from 2021-10-18 15-43-34.png, id=15, 1312.905
+pt x 557.08125pt>
+File: /home/andrew/Pictures/Screenshot from 2021-10-18 15-43-34.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-18 15-43-34.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-18 15-43
+-34.png  used on input line 60.
+(pdftex.def)             Requested size: 345.0pt x 146.38477pt.
+[2 </home/andrew/Pictures/Screenshot from 2021-10-18 15-15-07.png> </home/andre
+w/Pictures/Screenshot from 2021-10-18 15-31-33.png>]
+</home/andrew/Pictures/Screenshot from 2021-10-18 15-45-11.png, id=22, 1263.721
+25pt x 516.93124pt>
+File: /home/andrew/Pictures/Screenshot from 2021-10-18 15-45-11.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-18 15-45-11.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-18 15-45
+-11.png  used on input line 68.
+(pdftex.def)             Requested size: 345.0pt x 141.12718pt.
+File: /home/andrew/Pictures/Screenshot from 2021-10-18 15-45-11.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-18 15-45-11.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-18 15-45
+-11.png  used on input line 78.
+(pdftex.def)             Requested size: 345.0pt x 141.12718pt.
+ [3 </home/andrew/Pictures/Screenshot from 2021-10-18 15-43-34.png> </home/andr
+ew/Pictures/Screenshot from 2021-10-18 15-45-11.png>]
+Underfull \hbox (badness 10000) in paragraph at lines 83--84
+
+ []
+
+</home/andrew/Pictures/Screenshot from 2021-10-18 23-43-30.png, id=28, 1043.9pt
+ x 698.61pt>
+File: /home/andrew/Pictures/Screenshot from 2021-10-18 23-43-30.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-18 23-43-30.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-18 23-43
+-30.png  used on input line 92.
+(pdftex.def)             Requested size: 345.0pt x 230.88312pt.
+[4]
+Underfull \hbox (badness 10000) in paragraph at lines 102--109
+
+ []
+
+[5 </home/andrew/Pictures/Screenshot from 2021-10-18 23-43-30.png>]
+</home/andrew/Pictures/Screenshot from 2021-10-19 01-02-18.png, id=36, 1120.185
+pt x 662.475pt>
+File: /home/andrew/Pictures/Screenshot from 2021-10-19 01-02-18.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-19 01-02-18.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-19 01-02
+-18.png  used on input line 114.
+(pdftex.def)             Requested size: 345.0pt x 204.03079pt.
+File: /home/andrew/Pictures/Screenshot from 2021-10-19 01-02-18.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-19 01-02-18.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-19 01-02
+-18.png  used on input line 124.
+(pdftex.def)             Requested size: 345.0pt x 204.03079pt.
+ [6 </home/andrew/Pictures/Screenshot from 2021-10-19 01-02-18.png>]
+</home/andrew/Pictures/Screenshot from 2021-10-19 15-45-17.png, id=41, 988.6937
+6pt x 481.8pt>
+File: /home/andrew/Pictures/Screenshot from 2021-10-19 15-45-17.png Graphic fil
+e (type png)
+<use /home/andrew/Pictures/Screenshot from 2021-10-19 15-45-17.png>
+Package pdftex.def Info: /home/andrew/Pictures/Screenshot from 2021-10-19 15-45
+-17.png  used on input line 135.
+(pdftex.def)             Requested size: 345.0pt x 168.1179pt.
+ [7] [8 </home/andrew/Pictures/Screenshot from 2021-10-19 15-45-17.png>] (./Hom
+ework 2.aux) ) 
+Here is how much of TeX's memory you used:
+ 2430 strings out of 483183
+ 41194 string characters out of 5966292
+ 268255 words of memory out of 5000000
+ 17459 multiletter control sequences out of 15000+600000
+ 537507 words of font info for 41 fonts, out of 8000000 for 9000
+ 14 hyphenation exceptions out of 8191
+ 48i,6n,46p,807b,320s stack positions out of 5000i,500n,10000p,200000b,80000s
+</usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmb
+x10.pfb></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx12.pf
+b></usr/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmbx9.pfb></usr
+/share/texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr10.pfb></usr/share/
+texlive/texmf-dist/fonts/type1/public/amsfonts/cm/cmr12.pfb></usr/share/texlive
+/texmf-dist/fonts/type1/public/amsfonts/cm/cmr17.pfb></usr/share/texlive/texmf-
+dist/fonts/type1/public/amsfonts/cm/cmr9.pfb>
+Output written on "Homework 2.pdf" (8 pages, 617253 bytes).
+PDF statistics:
+ 74 PDF objects out of 1000 (max. 8388607)
+ 42 compressed objects within 1 object stream
+ 0 named destinations out of 1000 (max. 500000)
+ 36 words of extra memory for PDF output out of 10000 (max. 10000000)
+
